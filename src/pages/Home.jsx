@@ -10,6 +10,7 @@ const Home = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
+    window.scrollTo(0, 0);
     try {
       const res = await fetch(
         'https://631dacdccc652771a4896170.mockapi.io/cards'
