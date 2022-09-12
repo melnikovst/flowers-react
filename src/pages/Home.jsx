@@ -5,15 +5,27 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Skeleton from '../components/Skeleton';
 
-const Home = (props) => {
+const Home = () => {
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [active, setActive] = useState(0);
+  const [sort, setSort] = useState({
+    name: 'цене',
+    sortType: 'price',
+  });
+
+  const handleCategoryClick = (index) => {
+    setActive(index);
+  };
 
   const getData = async () => {
+    setIsLoading(true);
     window.scrollTo(0, 0);
     try {
       const res = await fetch(
-        'https://631dacdccc652771a4896170.mockapi.io/cards'
+        active === 0
+          ? `https://631dacdccc652771a4896170.mockapi.io/cards?sortBy=${sort.sortType}&order=asc`
+          : `https://631dacdccc652771a4896170.mockapi.io/cards?category=${active}&sortBy=${sort.sortType}&order=asc`
       );
       const cards = await res.json();
       setCards(cards);
@@ -23,15 +35,21 @@ const Home = (props) => {
     }
   };
 
+  const handleActiveClass = (index) => {
+    setSort(index);
+  };
+
+  console.log(active);
+
   useEffect(() => {
     getData();
-  }, []);
+  }, [active, sort]);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories handler={handleCategoryClick} isActive={active} />
+        <Sort sort={sort} handleActiveClass={handleActiveClass} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

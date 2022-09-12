@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Categories = () => {
+const Categories = ({ isActive, handler }) => {
   const categories = [
     'Все',
     'Мясные',
@@ -9,7 +9,6 @@ const Categories = () => {
     'Острые',
     'Закрытые',
   ];
-  const [active, setActive] = useState(0);
 
   return (
     <div className="categories">
@@ -18,8 +17,8 @@ const Categories = () => {
           return (
             <li
               key={i}
-              className={active === i ? 'active' : ''}
-              onClick={() => setActive(i)}
+              className={isActive === i ? 'active' : ''}
+              onClick={() => handler(i)}
             >
               {item}
             </li>
