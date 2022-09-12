@@ -1,4 +1,20 @@
+import { useState } from 'react';
+
+const visibleClass = {
+  display: 'block',
+};
+
+const hidden = {
+  display: 'none',
+};
+
 const Sort = () => {
+  const [visible, setVisible] = useState(false);
+  const [string, setString] = useState('популярности');
+
+  const liArray = ['популярности', 'цене', 'алфавиту'];
+  const [active, setActive] = useState(0);
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -15,13 +31,25 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setVisible(!visible)}>{string}</span>
       </div>
-      <div className="sort__popup">
+      <div className="sort__popup" style={visible ? visibleClass : hidden}>
         <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
+          {liArray.map((item, i) => {
+            return (
+              <li
+                key={i}
+                className={active === i ? 'active' : ''}
+                onClick={() => {
+                  setActive(i);
+                  setString(item);
+                  setVisible(false);
+                }}
+              >
+                {item}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

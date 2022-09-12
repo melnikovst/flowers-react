@@ -1,28 +1,45 @@
 import { useState } from 'react';
 
-const Card = ({ price, title }) => {
+const Card = ({ price, name, imageUrl, sizes, types }) => {
+  const itemTypes = ['тонкое', 'традиционное'];
+
   const [pizzaCount, setPizzaCount] = useState(0);
+  const [sizesState, setSizesState] = useState(0);
+  const [typesState, setTypesState] = useState(0);
 
   const handlePizzaCount = () => {
     setPizzaCount(pizzaCount + 1);
   };
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
-      <h4 className="pizza-block__title">{title}</h4>
+      <img className="pizza-block__image" src={imageUrl} alt={name} />
+      <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((item, i) => {
+            return (
+              <li
+                className={typesState === i ? 'active' : ''}
+                onClick={() => setTypesState(item)}
+                key={i}
+              >
+                {itemTypes[item]}
+              </li>
+            );
+          })}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((item, i) => {
+            return (
+              <li
+                className={sizesState === i ? 'active' : ''}
+                onClick={() => setSizesState(i)}
+                key={i}
+              >
+                {item} см.
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="pizza-block__bottom">

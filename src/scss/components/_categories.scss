@@ -1,8 +1,14 @@
 @import '../variables';
 
 .categories {
+  width: 100%;
+
   ul {
     display: flex;
+    width: 100%;
+    @media (max-width: 1260px) {
+      justify-content: center;
+    }
 
     li {
       background-color: #f9f9f9;
@@ -26,6 +32,12 @@
         background-color: #282828;
         color: #fff;
       }
+    }
+  }
+  @media (max-width: 1015px) {
+    overflow: scroll;
+    ul {
+      justify-content: flex-start;
     }
   }
 }

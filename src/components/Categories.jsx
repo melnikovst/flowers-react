@@ -11,10 +11,6 @@ const Categories = () => {
   ];
   const [active, setActive] = useState(0);
 
-  const handleActive = (i) => {
-    setActive(i);
-  };
-
   return (
     <div className="categories">
       <ul>
@@ -23,7 +19,7 @@ const Categories = () => {
             <li
               key={i}
               className={active === i ? 'active' : ''}
-              onClick={() => handleActive(i)}
+              onClick={() => setActive(i)}
             >
               {item}
             </li>

@@ -1,8 +1,9 @@
 import './scss/app.scss';
 import Header from './components/Header';
-import Categories from './components/Categories';
-import Sort from './components/Sort';
-import Card from './components/Card';
+import PageNotFound from './pages/PageNotFound';
+import Home from './pages/Home';
+import { Routes, Route } from 'react-router-dom';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -10,17 +11,11 @@ function App() {
       <Header />
       <div className="content">
         <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <Card price={500} title="Мексиканская" />
-            <Card price={350} title="Пеперонни" />
-            <Card price={480} title="Итальянская" />
-            <Card price={620} title="Четыре сыра" />
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
         </div>
       </div>
     </div>
