@@ -27,7 +27,7 @@ const Home = (props) => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Categories />
         <Sort />
@@ -40,7 +40,7 @@ const Home = (props) => {
               return <Card key={cards.id} {...cards} />;
             })}
       </div>
-    </>
+    </div>
   );
 };
 

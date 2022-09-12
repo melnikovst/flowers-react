@@ -10,13 +10,11 @@ function App() {
     <div className="wrapper">
       <Header />
       <div className="content">
-        <div className="container">
-          <Routes>
-            <Route path="/pizza-react/" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/pizza-react/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </div>
     </div>
   );
