@@ -19,6 +19,9 @@ const StyledButton = styled.button`
   align-items: center;
   width: 40px;
   height: 40px;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.15s ease;
 
   &:hover {
     background-color: black;
@@ -29,7 +32,6 @@ const StyledButton = styled.button`
 const Pagination = ({ onChangePage }) => {
   const buttons = [1, 2, 3];
   const [activeClass, setActiveClass] = useState(0);
-  console.log(activeClass);
 
   const handleChangeIncrement = () => {
     if (activeClass < buttons.length - 1) {

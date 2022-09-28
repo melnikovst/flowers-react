@@ -6,61 +6,95 @@ import { useState, useContext } from 'react';
 import Skeleton from '../components/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
+import axios from 'axios';
 const Home = () => {
+  const { categoryId, sort } = useSelector((state) => state.filterSlice);
+  const dispatch = useDispatch();
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [active, setActive] = useState(0);
-  const [sort, setSort] = useState({
-    name: 'цене',
-    sortType: 'price',
-  });
   const [currentPage, setCurrentPage] = useState(1);
   const { search } = useContext(SearchContext);
-  console.log(search);
+
   const handleCategoryClick = (index) => {
-    setActive(index);
+    dispatch(setCategoryId(index));
   };
 
   const getData = async () => {
     setIsLoading(true);
     window.scrollTo(0, 0);
     try {
-      const res = await fetch(
-        active === 0
+      const res = await axios.get(
+        categoryId === 0
           ? `https://631dacdccc652771a4896170.mockapi.io/cards?search=${search}&page=${currentPage}&limit=4&sortBy=${sort.sortType}&order=asc`
-          : `https://631dacdccc652771a4896170.mockapi.io/cards?search=${search}&page=${currentPage}&limit=4&category=${active}&sortBy=${sort.sortType}&order=asc`
+          : `https://631dacdccc652771a4896170.mockapi.io/cards?search=${search}&page=${currentPage}&limit=4&category=${categoryId}&sortBy=${sort.sortType}&order=asc`
       );
-      const cards = await res.json();
-      setCards(cards);
+      setCards(res.data);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleActiveClass = (index) => {
-    setSort(index);
+  const [selectedCard, setSelectedCard] = useState({});
+  console.log(selectedCard);
+  const onImgClick = (card) => {
+    setIsPopupOpen(true);
+    setSelectedCard(card);
   };
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     getData();
-  }, [active, sort, currentPage, search]);
+  }, [categoryId, sort, currentPage, search]);
+
+  const [checkType, setCheckType] = useState(0);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories handler={handleCategoryClick} isActive={active} />
-        <Sort sort={sort} handleActiveClass={handleActiveClass} />
+        <Categories handler={handleCategoryClick} isActive={categoryId} />
+        <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">Все цветы</h2>
       <div className="content__items">
         {isLoading
           ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
-          : cards.map((cards) => {
-              return <Card key={cards.id} {...cards} />;
+          : cards.map((card) => {
+              return (
+                <Card
+                  key={card.id}
+                  {...card}
+                  onImgClick={onImgClick}
+                  card={card}
+                  setCheckType={setCheckType}
+                />
+              );
             })}
       </div>
       <Pagination onChangePage={(pageNum) => setCurrentPage(pageNum)} />
+      {isPopupOpen && (
+        <div
+          className={`container__substrate ${
+            isPopupOpen ? 'container__substrate_active' : ''
+          }`}
+          onClick={() => {
+            setIsPopupOpen(false);
+            setSelectedCard({});
+          }}
+        >
+          <img
+            src={
+              checkType === 0 ? selectedCard.ImageUrl : selectedCard.DarkImage
+            }
+            alt={selectedCard.name}
+            className="container__popupImg"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };

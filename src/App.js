@@ -8,7 +8,7 @@ import Cart from './pages/Cart';
 import { createContext, useState } from 'react';
 export const SearchContext = createContext('');
 
-function App() {
+function App({ store }) {
   const [search, setSearch] = useState('');
   return (
     <div className="wrapper">
@@ -16,9 +16,9 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
-            <Route path="/pizza-react/" element={<Home search={search} />} />
+            <Route path="/flowers/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </div>
       </SearchContext.Provider>

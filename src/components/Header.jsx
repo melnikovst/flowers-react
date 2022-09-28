@@ -1,4 +1,4 @@
-import headerLogo from '../images/pizza-logo.svg';
+import headerLogo from '../images/flowers.png';
 import { Link } from 'react-router-dom';
 import Search from './Search';
 
@@ -6,13 +6,13 @@ const Header = () => {
   return (
     <div className="header">
       <div className="container">
-        <Link to="/pizza-react/">
+        <Link to="/flowers/">
           <div className="header__logo">
             <img width="38" src={headerLogo} alt="Pizza logo" />
 
             <div>
-              <h1>Pizza</h1>
-              <p>самая вкусная пицца во вселенной</p>
+              <h1>Flowers</h1>
+              <p>Самые красивые цветы</p>
             </div>
           </div>
         </Link>

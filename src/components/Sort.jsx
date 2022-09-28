@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSort } from '../redux/slices/filterSlice';
 
 const visibleClass = {
   display: 'block',
@@ -8,7 +10,10 @@ const hidden = {
   display: 'none',
 };
 
-const Sort = ({ sort, handleActiveClass }) => {
+const Sort = () => {
+  const dispatch = useDispatch();
+  const sort = useSelector((state) => state.filterSlice.sort);
+
   const [visible, setVisible] = useState(false);
 
   const list = [
@@ -16,6 +21,9 @@ const Sort = ({ sort, handleActiveClass }) => {
     { name: 'популярности', sortType: 'rating' },
     { name: 'алфавиту', sortType: 'name' },
   ];
+  const handleActiveClass = (item) => {
+    dispatch(setSort(item));
+  };
 
   return (
     <div className="sort">

@@ -1,13 +1,11 @@
-import { useState } from 'react';
-
 const Categories = ({ isActive, handler }) => {
   const categories = [
     'Все',
-    'Мясные',
-    'Вегетарианские',
-    'Гриль',
-    'Острые',
-    'Закрытые',
+    'Популярные',
+    'Летние',
+    'Пышные',
+    'Необычные',
+    'Сборные',
   ];
 
   return (
