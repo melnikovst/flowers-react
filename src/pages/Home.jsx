@@ -7,19 +7,22 @@ import Skeleton from '../components/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import axios from 'axios';
 const Home = () => {
-  const { categoryId, sort } = useSelector((state) => state.filterSlice);
+  const { categoryId, sort, currentPage } = useSelector(
+    (state) => state.filterSlice
+  );
   const dispatch = useDispatch();
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const { search } = useContext(SearchContext);
 
   const handleCategoryClick = (index) => {
     dispatch(setCategoryId(index));
   };
+
+  console.log(currentPage);
 
   const getData = async () => {
     setIsLoading(true);
@@ -37,8 +40,11 @@ const Home = () => {
     }
   };
 
+  const onChangePage = (pageNum) => {
+    dispatch(setCurrentPage(pageNum));
+  };
+
   const [selectedCard, setSelectedCard] = useState({});
-  console.log(selectedCard);
   const onImgClick = (card) => {
     setIsPopupOpen(true);
     setSelectedCard(card);
@@ -74,7 +80,7 @@ const Home = () => {
               );
             })}
       </div>
-      <Pagination onChangePage={(pageNum) => setCurrentPage(pageNum)} />
+      <Pagination onChangePage={onChangePage} />
       {isPopupOpen && (
         <div
           className={`container__substrate ${

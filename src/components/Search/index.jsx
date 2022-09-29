@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { SearchContext } from '../../App';
 import { useRef } from 'react';
+import debounce from 'lodash.debounce';
 const Input = styled.input`
   width: 400px;
   height: 40px;
@@ -31,14 +32,28 @@ const Button = styled.button`
 `;
 
 const Search = () => {
-  const { search, setSearch } = useContext(SearchContext);
+  const [value, setValue] = useState('');
+  const { setSearch } = useContext(SearchContext);
   const inputRef = useRef();
 
   console.log(inputRef);
 
   const holdFocus = () => {
+    setValue('');
     setSearch('');
     inputRef.current.focus();
+  };
+
+  const debouncedInput = useCallback(
+    debounce((str) => {
+      setSearch(str);
+    }, 1000),
+    []
+  );
+
+  const onChangeInput = (e) => {
+    setValue(e.target.value);
+    debouncedInput(e.target.value);
   };
 
   return (
@@ -46,11 +61,11 @@ const Search = () => {
       <Input
         ref={inputRef}
         type="text"
-        placeholder="поиск пиццы..."
-        onChange={(e) => setSearch(e.target.value)}
-        value={search}
+        placeholder="поиск цветов..."
+        onChange={onChangeInput}
+        value={value}
       />
-      {search.length > 0 ? <Button onClick={holdFocus}>del</Button> : null}
+      {value.length > 0 ? <Button onClick={holdFocus}>del</Button> : null}
     </div>
   );
 };
